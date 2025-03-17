@@ -1,70 +1,41 @@
-const participantes = [];
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteo de Amigos Secretos</title>
+</head>
+<body>
+    <h2>Sorteo de Amigo Secreto</h2>
 
-// Función para agregar participantes
-function agregarParticipante(nombre) {
-    if (nombre.trim() === "") {
-        console.log("Por favor, ingrese un nombre válido.");
-        return;
-    }
-    if (!participantes.includes(nombre)) {
-        participantes.push(nombre);
-        console.log(`${nombre} ha sido agregado.`);
-    } else {
-        console.log("Nombre ya existe.");
-    }
-}
+    <!-- Botón para realizar el sorteo -->
+    <button onclick="sorteoAmigo()">Sortea un Amigo Secreto</button>
 
-// Función para asignar amigos secretos
-function asignarAmigoSecreto() {
-    if (participantes.length < 2) {
-        console.log("Se necesitan al menos 2 participantes.");
-        return;
-    }
+    <!-- Área donde se mostrará el amigo sorteado -->
+    <p id="resultado">Haz clic en el botón para realizar el sorteo.</p>
 
-    let mezclados = [];
-    // Mezclamos los participantes de forma simple, sin usar algoritmos complejos
-    while (mezclados.length < participantes.length) {
-        let indiceAleatorio = Math.floor(Math.random() * participantes.length);
-        let participante = participantes[indiceAleatorio];
-        if (!mezclados.includes(participante)) {
-            mezclados.push(participante);
+    <script>
+        // Array de amigos
+        const amigos = ["Carlos", "Ana", "Luis", "María"];
+
+        // Función para hacer el sorteo de un amigo secreto
+        function sorteoAmigo() {
+            // Verificar si el array tiene amigos
+            if (amigos.length === 0) {
+                document.getElementById("resultado").innerHTML = "No hay amigos para sortear.";
+                return; // Sale de la función si no hay amigos
+            }
+
+            // Generar un índice aleatorio
+            const indiceAleatorio = Math.floor(Math.random() * amigos.length);
+
+            // Obtener el nombre del amigo sorteado
+            const amigoSorteado = amigos[indiceAleatorio];
+
+            // Mostrar el resultado en la página
+            document.getElementById("resultado").innerHTML = "El amigo secreto sorteado es: " + amigoSorteado;
         }
-    }
+    </script>
+</body>
+</html>
 
-    // Asignamos amigos secretos asegurándonos de que no se asigne a sí mismo
-    let asignaciones = [];
-    for (let i = 0; i < participantes.length; i++) {
-        let participante = participantes[i];
-        let amigoSecreto;
-        
-        // Evitamos que una persona se asigne a sí misma
-        do {
-            let indiceAleatorio = Math.floor(Math.random() * participantes.length);
-            amigoSecreto = mezclados[indiceAleatorio];
-        } while (amigoSecreto === participante);
-
-        asignaciones.push({ participante: participante, amigoSecreto: amigoSecreto });
-    }
-
-    return asignaciones;
-}
-
-// Función para mostrar el amigo secreto de un participante
-function mostrarAmigoSecreto(nombre) {
-    const asignaciones = asignarAmigoSecreto();
-    const asignacion = asignaciones.find(asign => asign.participante === nombre);
-    if (asignacion) {
-        console.log(`${nombre}, tu amigo secreto es: ${asignacion.amigoSecreto}`);
-    } else {
-        console.log("Nombre no encontrado en la lista de participantes.");
-    }
-}
-
-// Ejemplo de uso
-agregarParticipante("Carlos");
-agregarParticipante("Ana");
-agregarParticipante("Luis");
-agregarParticipante("María");
-
-// Mostrar el amigo secreto de Carlos
-mostrarAmigoSecreto("Carlos");
