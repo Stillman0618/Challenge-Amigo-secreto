@@ -1,56 +1,52 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorteo de Amigo Secreto</title>
-</head>
-<body>
-    <h2>Sorteo de Amigo Secreto</h2>
+// Array que almacenará los nombres de los amigos
+const amigos = [];
 
-    <!-- Botón para realizar el sorteo -->
-    <button onclick="sorteoAmigo()">Sortea un Amigo Secreto</button>
+// Función para agregar amigos
+function agregarAmigo() {
+    const nombreInput = document.getElementById("amigo");
+    const nombre = nombreInput.value.trim();
 
-    <!-- Lugar donde se mostrará el amigo sorteado o el mensaje de error -->
-    <p id="resultado">Haz clic en el botón para ver el amigo secreto.</p>
+    // Validación si el nombre está vacío
+    if (nombre === "") {
+        alert("Por favor, ingresa un nombre válido.");
+        return;
+    }
 
-    <script>
-        // Array que guardará los nombres de los amigos
-        const amigos = [];
+    // Agregar el nombre al array si no está repetido
+    if (!amigos.includes(nombre)) {
+        amigos.push(nombre);
+        mostrarAmigos();
+    } else {
+        alert("Este nombre ya está en la lista.");
+    }
 
-        // Función para agregar un amigo al array
-        function agregarAmigo(nombre) {
-            if (nombre === "") {
-                alert("Por favor, ingresa un nombre para agregar."); // Si el nombre está vacío, muestra un aviso
-            } else {
-                amigos.push(nombre); // Si no está vacío, lo agrega al array
-            }
-        }
+    // Limpiar el campo de entrada
+    nombreInput.value = "";
+}
 
-        // Función para hacer el sorteo de un amigo secreto
-        function sorteoAmigo() {
-            // Verificamos si hay amigos en el array
-            if (amigos.length === 0) {
-                document.getElementById("resultado").innerHTML = "No hay amigos para sortear. ¡Por favor, agrega al menos uno!";
-                return; // Si no hay amigos, no hace el sorteo
-            }
+// Función para mostrar los amigos en la lista HTML
+function mostrarAmigos() {
+    const listaAmigos = document.getElementById("listaAmigos");
+    listaAmigos.innerHTML = ""; // Limpiar la lista antes de agregar nuevos amigos
 
-            // Generamos un índice aleatorio basado en el tamaño del array
-            const indiceAleatorio = Math.floor(Math.random() * amigos.length);
+    amigos.forEach((amigo) => {
+        const li = document.createElement("li");
+        li.textContent = amigo;
+        listaAmigos.appendChild(li);
+    });
+}
 
-            // Obtenemos el nombre del amigo sorteado
-            const amigoSorteado = amigos[indiceAleatorio];
+// Función para realizar el sorteo del amigo secreto
+function sortearAmigo() {
+    if (amigos.length < 2) {
+        alert("Necesitas al menos 2 amigos para hacer el sorteo.");
+        return;
+    }
 
-            // Mostramos el resultado en la página
-            document.getElementById("resultado").innerHTML = "El amigo secreto sorteado es: " + amigoSorteado;
-        }
+    const indiceAleatorio = Math.floor(Math.random() * amigos.length);
+    const amigoSorteado = amigos[indiceAleatorio];
 
-        // Ejemplo de cómo agregar amigos al array
-        agregarAmigo("Carlos");
-        agregarAmigo("Ana");
-        agregarAmigo("Luis");
-        agregarAmigo(""); // Este nombre vacío no se agregará
-    </script>
-</body>
-</html>
+    const resultado = document.getElementById("resultado");
+    resultado.innerHTML = `Tu amigo secreto es: <strong>${amigoSorteado}</strong>`;
+}
 
