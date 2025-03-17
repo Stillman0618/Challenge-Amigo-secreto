@@ -15,27 +15,27 @@
     <p id="resultado">Haz clic en el botón para realizar el sorteo.</p>
 
     <script>
-        // Array de amigos (inicialmente vacío)
+        // Array de amigos (comienza vacío)
         const amigos = [];
 
-        // Función para agregar un amigo
+        // Función para agregar un amigo al array
         function agregarAmigo(nombre) {
-            if (nombre.trim() === "") {
+            if (nombre === "") {
                 alert("Por favor, ingrese un nombre."); // Si el nombre está vacío, muestra una alerta
             } else {
-                amigos.push(nombre); // Si el nombre no está vacío, lo agrega al array
+                amigos.push(nombre); // Agrega el nombre al array de amigos
             }
         }
 
         // Función para hacer el sorteo de un amigo secreto
         function sorteoAmigo() {
-            // Verificar si el array tiene amigos
+            // Verificar si hay amigos en el array
             if (amigos.length === 0) {
                 document.getElementById("resultado").innerHTML = "Por favor, ingrese al menos un nombre.";
-                return; // Sale de la función si no hay amigos
+                return; // Si no hay amigos, no hace el sorteo
             }
 
-            // Generar un índice aleatorio
+            // Generar un índice aleatorio entre 0 y la cantidad de amigos - 1
             const indiceAleatorio = Math.floor(Math.random() * amigos.length);
 
             // Obtener el nombre del amigo sorteado
@@ -45,12 +45,11 @@
             document.getElementById("resultado").innerHTML = "El amigo secreto sorteado es: " + amigoSorteado;
         }
 
-        // Agregar algunos nombres al array como ejemplo
+        // Ejemplo de agregar algunos amigos (puedes agregar más)
         agregarAmigo("Carlos");
         agregarAmigo("Ana");
         agregarAmigo("Luis");
-        agregarAmigo(""); // Esto no agregará ningún nombre
+        agregarAmigo(""); // Esto no agregará ningún amigo, porque el nombre está vacío
     </script>
 </body>
 </html>
-
