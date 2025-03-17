@@ -14,22 +14,42 @@ function agregarParticipante(nombre) {
     }
 }
 
-// Función para mezclar y asignar amigos secretos
+// Función para asignar amigos secretos
 function asignarAmigoSecreto() {
     if (participantes.length < 2) {
         console.log("Se necesitan al menos 2 participantes.");
         return;
     }
-    
-    let mezclados = [...participantes];
-    do {
-        mezclados.sort(() => Math.random() - 0.5);
-    } while (mezclados.some((persona, i) => persona === participantes[i]));
-    
-    return participantes.map((persona, i) => ({ participante: persona, amigoSecreto: mezclados[i] }));
+
+    let mezclados = [];
+    // Mezclamos los participantes de forma simple, sin usar algoritmos complejos
+    while (mezclados.length < participantes.length) {
+        let indiceAleatorio = Math.floor(Math.random() * participantes.length);
+        let participante = participantes[indiceAleatorio];
+        if (!mezclados.includes(participante)) {
+            mezclados.push(participante);
+        }
+    }
+
+    // Asignamos amigos secretos asegurándonos de que no se asigne a sí mismo
+    let asignaciones = [];
+    for (let i = 0; i < participantes.length; i++) {
+        let participante = participantes[i];
+        let amigoSecreto;
+        
+        // Evitamos que una persona se asigne a sí misma
+        do {
+            let indiceAleatorio = Math.floor(Math.random() * participantes.length);
+            amigoSecreto = mezclados[indiceAleatorio];
+        } while (amigoSecreto === participante);
+
+        asignaciones.push({ participante: participante, amigoSecreto: amigoSecreto });
+    }
+
+    return asignaciones;
 }
 
-// Función para mostrar un solo nombre de la asignación
+// Función para mostrar el amigo secreto de un participante
 function mostrarAmigoSecreto(nombre) {
     const asignaciones = asignarAmigoSecreto();
     const asignacion = asignaciones.find(asign => asign.participante === nombre);
@@ -46,5 +66,5 @@ agregarParticipante("Ana");
 agregarParticipante("Luis");
 agregarParticipante("María");
 
-const resultado = asignarAmigoSecreto();
+// Mostrar el amigo secreto de Carlos
 mostrarAmigoSecreto("Carlos");
