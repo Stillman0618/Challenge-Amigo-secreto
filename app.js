@@ -50,3 +50,4 @@ function sortearAmigo() {
     resultado.innerHTML = `Tu amigo secreto es: <strong>${amigoSorteado}</strong>`;
 }
 
+
