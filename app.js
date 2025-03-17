@@ -26,10 +26,18 @@ function asignarAmigoSecreto() {
         mezclados.sort(() => Math.random() - 0.5);
     } while (mezclados.some((persona, i) => persona === participantes[i]));
     
-    let asignaciones = participantes.map((persona, i) => ({ participante: persona, amigoSecreto: mezclados[i] }));
-    
-    console.log("Asignaciones de Amigo Secreto:", asignaciones);
-    return asignaciones;
+    return participantes.map((persona, i) => ({ participante: persona, amigoSecreto: mezclados[i] }));
+}
+
+// Función para mostrar un solo nombre de la asignación
+function mostrarAmigoSecreto(nombre) {
+    const asignaciones = asignarAmigoSecreto();
+    const asignacion = asignaciones.find(asign => asign.participante === nombre);
+    if (asignacion) {
+        console.log(`${nombre}, tu amigo secreto es: ${asignacion.amigoSecreto}`);
+    } else {
+        console.log("Nombre no encontrado en la lista de participantes.");
+    }
 }
 
 // Ejemplo de uso
@@ -39,3 +47,4 @@ agregarParticipante("Luis");
 agregarParticipante("María");
 
 const resultado = asignarAmigoSecreto();
+mostrarAmigoSecreto("Carlos");
